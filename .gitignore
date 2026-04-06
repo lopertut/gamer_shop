@@ -1,0 +1,52 @@
+# Android/Gradle
+.gradle/
+build/
+*/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Gradle wrapper
+gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin specific
+*.kotlin_module
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Generated files
+local.properties
+
+# Ignore Android Studio specific files
+*.hprof
+*.orig
+*.apk
+*.ap_ 
+
+# Ignore IntelliJ run configs
+/runConfigurations/
+
+# Ignore Jetpack Compose previews
+.idea/preview/
+
+# .env files
+.env
+
+# Go
+*.sum
+
