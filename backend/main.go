@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"backend/handlers"
 )
 
 var (
@@ -18,13 +19,6 @@ var (
 	err       error	
 	projectId = os.Getenv("project_id")
 )
-
-type Product struct {
-	Name   string `json:"name"`
-	Type   string `json:"type"`
-	Colour string `json:"colour"`
-	Price  string `json:"price"`
-}
 
 func main() {
 	if projectId == "" {
@@ -41,67 +35,13 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/products", getProducts).Methods("GET")
-	rouer.HandleFunc("/products/{id}", getProductById).Methods("GET")
+	router.HandleFunc("/products", handlers.getProducts(client, ctx)).Methods("GET")
+	rouer.HandleFunc("/products/{id}", handlers.getProductById(client, ctx)).Methods("GET")
 	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
 	fmt.Printf("server is running on: http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, router))
-}
-
-func getProducts(w http.ResponseWriter, r *http.Request) {
-	log.Print("fetching products")
-
-	collection := client.Collection("products")
-	products, err := collection.Documents(ctx).GetAll()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	var result []Product
-	for _, doc := range products {
-		var product Product
-		err := doc.DataTo(&product)
-		if err != nil {
-			log.Printf("failed to convert doc: %v\n", err)
-			continue
-		}
-		result = append(result, product)
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
-}
-
-func getProductById(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	log.Printf("fetching product by id: %s\n", id)
-	
-	collection := client.Collection("products")
-	doc, err := collection.Doc(id).Get(ctx)
-	if err != nil { 
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	if !doc.Exists() {
-		http.Error(w, "product not found", http.StatusNotFound)
-		return
-	}
-
-	var product Product
-	err = doc.DataTo(&product)
-	if err != nil {
-		http.Error(w, "failed to parse product", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(product)
 }
 
 func showFunctions(w http.ResponseWriter, r *http.Request) {
