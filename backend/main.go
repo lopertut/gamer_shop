@@ -43,7 +43,7 @@ func main() {
 
 	router.HandleFunc("/products", getProducts).Methods("GET")
 	rouer.HandleFunc("/products/{id}", getProductById).Methods("GET")
-	router.HandleFunc("/", helloWorld)
+	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
 	fmt.Printf("server is running on: http://localhost%s\n", port)
@@ -104,6 +104,7 @@ func getProductById(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(product)
 }
 
-func helloWorld(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "hello world")
+func showFunctions(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "products/	GET")
+	fmt.Fprintln(w, "products/{id}	GET")
 }
