@@ -15,7 +15,7 @@ import (
 var (
 	ctx       context.Context
 	client    *firestore.Client
-	err       error
+	err       error	
 	projectId = os.Getenv("project_id")
 )
 
@@ -42,6 +42,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/products", getProducts).Methods("GET")
+	rouer.HandleFunc("/products/{id}", getProductById).Methods("GET")
 	router.HandleFunc("/", helloWorld)
 
 	port := ":8000"
@@ -51,6 +52,7 @@ func main() {
 
 func getProducts(w http.ResponseWriter, r *http.Request) {
 	log.Print("fetching products")
+
 	collection := client.Collection("products")
 	products, err := collection.Documents(ctx).GetAll()
 	if err != nil {
@@ -71,6 +73,35 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(result)
+}
+
+func getProductById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	log.Printf("fetching product by id: %s\n", id)
+	
+	collection := client.Collection("products")
+	doc, err := collection.Doc(id).Get(ctx)
+	if err != nil { 
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if !doc.Exists() {
+		http.Error(w, "product not found", http.StatusNotFound)
+		return
+	}
+
+	var product Product
+	err = doc.DataTo(&product)
+	if err != nil {
+		http.Error(w, "failed to parse product", http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(product)
 }
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
