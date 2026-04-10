@@ -1,22 +1,21 @@
 package main
 
 import (
+	"backend/handlers"
 	"cloud.google.com/go/firestore"
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
 	_ "github.com/joho/godotenv/autoload"
 	"log"
 	"net/http"
 	"os"
-	"backend/handlers"
 )
 
 var (
 	ctx       context.Context
 	client    *firestore.Client
-	err       error	
+	err       error
 	projectId = os.Getenv("project_id")
 )
 
@@ -35,8 +34,8 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/products", handlers.getProducts(client, ctx)).Methods("GET")
-	rouer.HandleFunc("/products/{id}", handlers.getProductById(client, ctx)).Methods("GET")
+	router.HandleFunc("/products", handlers.GetProducts(client)).Methods("GET")
+	router.HandleFunc("/products/{id}", handlers.GetProductById(client)).Methods("GET")
 	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"

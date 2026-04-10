@@ -1,64 +1,68 @@
 package handlers
 
 import (
+	"backend/models"
+	"cloud.google.com/go/firestore"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-	"cloud.google.com/go/firestore"
-	"github.com/gorilla/mux"
-	"backend/models"
 )
 
-func getProducts(w http.ResponseWriter, r *http.Request, client *firestore.Client, ctx context.Context) {
-	log.Print("fetching products")
+func GetProducts(client *firestore.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 
-	collection := client.Collection("products")
-	products, err := collection.Documents(ctx).GetAll()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+		log.Print("fetching products")
 
-	var result [].models.Product
-	for _, doc := range products {
-		var product Product
-		err := doc.DataTo(&product)
+		ctx := r.Context()
+
+		collection := client.Collection("products")
+		products, err := collection.Documents(ctx).GetAll()
 		if err != nil {
-			log.Printf("failed to convert doc: %v\n", err)
-			continue
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
-		result = append(result, product)
-	}
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(result)
+		var result []models.Product
+		for _, doc := range products {
+			var product models.Product
+			err := doc.DataTo(&product)
+			if err != nil {
+				log.Printf("failed to convert doc: %v\n", err)
+				continue
+			}
+			result = append(result, product)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(result)
+	}
 }
 
-func getProductById(w http.ResponseWriter, r *http.Request, client *firestore.Client, ctx context.Context) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+func GetProductById(client *firestore.Client) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
+		vars := mux.Vars(r)
+		id := vars["id"]
 
-	log.Printf("fetching product by id: %s\n", id)
-	
-	collection := client.Collection("products")
-	doc, err := collection.Doc(id).Get(ctx)
-	if err != nil { 
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		log.Printf("fetching product by id: %s\n", id)
+
+		collection := client.Collection("products")
+		doc, err := collection.Doc(id).Get(ctx)
+
+		if !doc.Exists() {
+			http.Error(w, "product not found", http.StatusNotFound)
+			return
+		}
+
+		var product models.Product
+		err = doc.DataTo(&product)
+		if err != nil {
+			http.Error(w, "failed to parse product", http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(product)
 	}
-
-	if !doc.Exists() {
-		http.Error(w, "product not found", http.StatusNotFound)
-		return
-	}
-
-	var product models.Product
-	err = doc.DataTo(&product)
-	if err != nil {
-		http.Error(w, "failed to parse product", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(product)
 }
