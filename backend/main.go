@@ -1,7 +1,9 @@
 package main
 
 import (
-	"backend/handlers"
+	"backend/handler"
+	"backend/repository"
+	"backend/service"
 	"context"
 	"fmt"
 	"log"
@@ -25,10 +27,14 @@ func main() {
 		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 
+	repo := repository.NewRepository(pool)
+	s := service.NewService(repo)
+	h := handler.NewHandler(s)
+
 	router := mux.NewRouter()
 
-	router.HandleFunc("/products", handlers.GetProducts(pool)).Methods("GET")
-	router.HandleFunc("/products/{id}", handlers.GetProductById(pool)).Methods("GET")
+	router.HandleFunc("/products", h.GetProducts).Methods("GET")
+	router.HandleFunc("/products/{id}", h.GetProductById).Methods("GET")
 	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
