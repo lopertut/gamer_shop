@@ -16,6 +16,7 @@ func (h *Handler) GetProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := h.service.GetProducts(ctx)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -30,6 +31,7 @@ func (h *Handler) GetProductById(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(strId, 10, 64)
 	if err != nil {
 		http.Error(w, "invalid product id", http.StatusBadRequest)
+		return
 	}
 
 	log.Printf("fetching product by id: %d\n", id)
@@ -37,6 +39,7 @@ func (h *Handler) GetProductById(w http.ResponseWriter, r *http.Request) {
 	product, err := h.service.GetProductById(ctx, int(id))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
