@@ -2,44 +2,47 @@ package handlers
 
 import (
 	"backend/models"
-	"cloud.google.com/go/firestore"
 	"encoding/json"
 	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"log"
 	"net/http"
 )
 
-func GetProducts(client *firestore.Client) http.HandlerFunc {
+func GetProducts(conn *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
 
 		log.Print("fetching products")
 
-		ctx := r.Context()
-
-		collection := client.Collection("products")
-		products, err := collection.Documents(ctx).GetAll()
+		rows, err := conn.Query(ctx, "select * from products;")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		defer rows.Close()
 
-		var result []models.Product
-		for _, doc := range products {
-			var product models.Product
-			err := doc.DataTo(&product)
+		print(rows)
+
+		var products []models.Product
+
+		for rows.Next() {
+			var p models.Product
+
+			err := rows.Scan(&p.Id, &p.Name, &p.Colour, &p.Price, &p.Type)
 			if err != nil {
-				log.Printf("failed to convert doc: %v\n", err)
-				continue
+				log.Println("scan error:", err)
 			}
-			result = append(result, product)
+
+			products = append(products, p)
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(result)
+		json.NewEncoder(w).Encode(products)
 	}
 }
 
-func GetProductById(client *firestore.Client) http.HandlerFunc {
+func GetProductById(conn *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
 		vars := mux.Vars(r)
@@ -47,22 +50,12 @@ func GetProductById(client *firestore.Client) http.HandlerFunc {
 
 		log.Printf("fetching product by id: %s\n", id)
 
-		collection := client.Collection("products")
-		doc, err := collection.Doc(id).Get(ctx)
+		row := conn.QueryRow(ctx, "select * from products where id=$1", id)
 
-		if !doc.Exists() {
-			http.Error(w, "product not found", http.StatusNotFound)
-			return
-		}
-
-		var product models.Product
-		err = doc.DataTo(&product)
-		if err != nil {
-			http.Error(w, "failed to parse product", http.StatusInternalServerError)
-			return
-		}
+		var p models.Product
+		row.Scan(&p.Id, &p.Name, &p.Colour, &p.Price, &p.Type)
 
 		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(product)
+		json.NewEncoder(w).Encode(p)
 	}
 }

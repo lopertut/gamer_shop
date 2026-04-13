@@ -2,40 +2,33 @@ package main
 
 import (
 	"backend/handlers"
-	"cloud.google.com/go/firestore"
 	"context"
 	"fmt"
-	"github.com/gorilla/mux"
-	_ "github.com/joho/godotenv/autoload"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 var (
-	ctx       context.Context
-	client    *firestore.Client
-	err       error
-	projectId = os.Getenv("project_id")
+	err error
 )
 
 func main() {
-	if projectId == "" {
-		log.Fatal("projectId is empty. Please write it into .env")
-		return
-	}
+	ctx := context.Background()
 
-	ctx = context.Background()
-	client, err = firestore.NewClient(ctx, projectId)
-
+	pool, err := pgxpool.New(ctx, os.Getenv("DATABASE_URL"))
 	if err != nil {
-		log.Fatalf("firestore init error: %v\n", err)
+		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/products", handlers.GetProducts(client)).Methods("GET")
-	router.HandleFunc("/products/{id}", handlers.GetProductById(client)).Methods("GET")
+	router.HandleFunc("/products", handlers.GetProducts(pool)).Methods("GET")
+	router.HandleFunc("/products/{id}", handlers.GetProductById(pool)).Methods("GET")
 	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
