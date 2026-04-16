@@ -21,9 +21,14 @@ func (s *Service) Registration(ctx context.Context, name string, email string, p
 		Password: string(hashedPassword),
 	}
 
-	err = s.repo.InsertUser(ctx, user)
+	newUser, err := s.repo.InsertUser(ctx, user)
 	if err != nil {
 		log.Printf("%v", err)
+		return err
+	}
+
+	err = s.repo.InsertCart(ctx, newUser.Id)
+	if err != nil {
 		return err
 	}
 

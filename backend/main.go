@@ -37,6 +37,9 @@ func main() {
 	router.HandleFunc("/products/{id}", h.GetProductById).Methods("GET")
 	router.HandleFunc("/registration", h.Registration).Methods("POST")
 	router.HandleFunc("/login", h.Login).Methods("POST")
+	router.HandleFunc("/cart/{id}", h.GetCartItemsByCartId).Methods("GET")
+	router.HandleFunc("/cartItem", h.AddCartItem).Methods("POST")
+	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE")
 	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
