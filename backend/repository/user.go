@@ -21,9 +21,9 @@ func (r *Repository) InsertUser(ctx context.Context, user model.User) (model.Use
 func (r *Repository) GetUserByEmail(ctx context.Context, email string) (model.User, error) {
 	var user model.User
 
-	query := "select name, email, password from users where email=$1;"
+	query := "select users.name, users.email, users.password, carts.id from users join carts ON carts.user_id = users.id where email=$1;"
 	row := r.pool.QueryRow(ctx, query, email)
-	err := row.Scan(&user.Name, &user.Email, &user.Password)
+	err := row.Scan(&user.Name, &user.Email, &user.Password, &user.CartId)
 	if err != nil {
 		return model.User{}, err
 	}

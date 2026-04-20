@@ -1,12 +1,23 @@
 package handler
 
 import (
+	"backend/service"
 	"encoding/json"
 	"log"
 	"net/http"
 )
 
-func (h *Handler) Registration(w http.ResponseWriter, r *http.Request) {
+type AuthHandler struct {
+	service *service.AuthService
+}
+
+func NewAuthHandler(service *service.AuthService) *AuthHandler {
+	return &AuthHandler{
+		service: service,
+	}
+}
+
+func (h *AuthHandler) Registration(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var req RegistrationRequest
@@ -25,7 +36,7 @@ func (h *Handler) Registration(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var req LoginRequest
@@ -36,13 +47,16 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := h.service.Login(ctx, req.Email, req.Password)
+	token, err := h.service.Login(ctx, req.Email, req.Password)
 	if err != nil {
-		http.Error(w, "something went wrong", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(user)
+	json.NewEncoder(w).Encode(map[string]string{
+		"token": token,
+	})
 }
 
 type RegistrationRequest struct {

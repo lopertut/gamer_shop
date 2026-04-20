@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/handler"
+	"backend/middleware"
 	"backend/repository"
 	"backend/service"
 	"context"
@@ -30,24 +31,21 @@ func main() {
 	repo := repository.NewRepository(pool)
 	s := service.NewService(repo)
 	h := handler.NewHandler(s)
+	authService := service.NewAuthService(repo, os.Getenv("JWT_KEY"))
+	authHandler := handler.NewAuthHandler(authService)
+	authMiddleware := middleware.NewAuthMiddleware(authService)
 
 	router := mux.NewRouter()
 
 	router.HandleFunc("/products", h.GetProducts).Methods("GET")
 	router.HandleFunc("/products/{id}", h.GetProductById).Methods("GET")
-	router.HandleFunc("/registration", h.Registration).Methods("POST")
-	router.HandleFunc("/login", h.Login).Methods("POST")
-	router.HandleFunc("/cart/{id}", h.GetCartItemsByCartId).Methods("GET")
+	router.HandleFunc("/registration", authHandler.Registration).Methods("POST")
+	router.HandleFunc("/login", authHandler.Login).Methods("POST")
+	router.Handle("/cart", authMiddleware.Protect(http.HandlerFunc(h.GetCartItemsByCartId))).Methods("GET")
 	router.HandleFunc("/cartItem", h.AddCartItem).Methods("POST")
 	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE")
-	router.HandleFunc("/", showFunctions)
 
 	port := ":8000"
 	fmt.Printf("server is running on: http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, router))
-}
-
-func showFunctions(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "products/	GET")
-	fmt.Fprintln(w, "products/{id}	GET")
 }

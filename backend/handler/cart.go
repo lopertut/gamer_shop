@@ -10,16 +10,9 @@ import (
 
 func (h *Handler) GetCartItemsByCartId(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	vars := mux.Vars(r)
-	strId := vars["cart_id"]
+	cartId := ctx.Value("cart_id").(int)
 
-	id, err := strconv.ParseInt(strId, 10, 64)
-	if err != nil {
-		http.Error(w, "invalid cart_id", http.StatusBadRequest)
-		return
-	}
-
-	cartItems, err := h.service.GetCartItemsByCartId(ctx, int(id))
+	cartItems, err := h.service.GetCartItemsByCartId(ctx, cartId)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
