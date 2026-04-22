@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,17 +18,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.app.gamer_shop.models.Product
 import com.app.gamer_shop.views.ProductViewModel
 
-@Composable
-fun HomeScreen(viewModel: ProductViewModel = viewModel()) {
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-    val products by viewModel.products.collectAsState()
+
+@Composable
+fun HomeScreen() {
+    val productViewModel: ProductViewModel = hiltViewModel()
+    val products by productViewModel.products.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.loadProducts()
+        productViewModel.loadProducts()
     }
 
 

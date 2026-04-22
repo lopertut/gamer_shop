@@ -4,17 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.gamer_shop.models.Product
 import com.app.gamer_shop.repositories.ProductRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ProductViewModel : ViewModel() {
+@HiltViewModel
+class ProductViewModel @Inject constructor(private val productRepository: ProductRepository) : ViewModel() {
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
 
     fun loadProducts() {
         viewModelScope.launch {
-            val result = ProductRepository.fetchProducts()
+            val result = productRepository.fetchProducts()
             _products.value = result
         }
     }

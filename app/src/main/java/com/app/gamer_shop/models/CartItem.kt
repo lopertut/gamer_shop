@@ -3,4 +3,4 @@ package com.app.gamer_shop.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Product(val id: Int, val name: String, val price: String, val type: String)
+data class CartItem(val id: Int, val cartId: Int, val productId: Int, val quantity: Int)
