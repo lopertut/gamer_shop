@@ -73,10 +73,9 @@ $ tre.
 ---
 
 ## Team Members
- Name ja Github
-Daniel Gvirdzhishvili @Ckoko228
-Artur Matvejev @Lopertut
-Maksim Stsepelev @Cursed-ken-kaneki
+* **[Artur Matvejev](https://github.com/lopertut)** – **Peamine arendus ja back-end.** Tegeles rakenduse loogika kirjutamisega Android Studios, andmebaaside ühendamise ja süsteemi tehnilise teostusega.
+* **[Daniel Gvirdzhishvili](https://github.com/cursed-ken-kaneki)** – **Disain ja UI/UX.** Tegeles rakenduse visuaalse poole disainimisega Figmas ja kasutajaliidese planeerimisega.
+* **[Maksim Stsepelev](https://github.com/ckoko228)** – **GitHubi haldus ja projektijuhtimine.** Lõi projekti hoidla (repository), haldas koodi versioone ja hoidis kogu arendusprotsessi kontrolli all.
 
 ---
 
