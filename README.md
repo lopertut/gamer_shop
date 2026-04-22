@@ -82,8 +82,8 @@ Maksim Stsepelev @Cursed-ken-kaneki
 
 ## How to Run
 1. Clone the repository
-   ```git
-   clone https://github.com/lopertut/gamer_shop
+   ```bash
+   git clone https://github.com/lopertut/gamer_shop
    ```
 3. Open the project folder  
 4. Open backend folder
