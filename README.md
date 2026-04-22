@@ -82,7 +82,7 @@ Maksim Stsepelev @Cursed-ken-kaneki
 
 ## How to Run
 1. Clone the repository
-   ```console
+   ```git
    clone https://github.com/lopertut/gamer_shop
    ```
 3. Open the project folder  
