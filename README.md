@@ -1,9 +1,7 @@
 #  GAMER SHOP – Online Store Web App
 
 ## Project Description
-Gamer Shop is a web-based online store designed for gamers. The goal of the project is to create a modern, responsive, and user-friendly shopping experience where users can browse gaming products, view details, and interact with a clean interface.
-
-The project focuses on frontend development and demonstrates basic e-commerce functionality without real payment integration.
+Gamer Shop is a mobile store designed for gamers. The goal of the project is to create a modern, responsive, and user-friendly shopping experience where users can browse gaming products, view details, and interact with a clean interface.
 
 ---
 
@@ -65,11 +63,6 @@ The project follows a simple Kanban workflow.
 - Clear progress tracking  
 - Easy to expand and update  
 - Suitable for solo or small team development  
-
----
-
-## Project Structure
-$ tre.
 
 ---
 
