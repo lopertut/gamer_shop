@@ -10,38 +10,21 @@ The project focuses on frontend development and demonstrates basic e-commerce fu
 ## Features
 - Browse products through a clean and modern interface  
 - View detailed information about each product  
-- User registration page  
-- Contact page for user communication  
 - Simple navigation between pages  
-- Responsive design for desktop and mobile devices  
+- Responsive design for mobile devices  
 - More features can be added in future development  
 
 ---
 
 ## Tech Stack
-- **Language:** HTML5, CSS3, JavaScript  
-- **UI:** Custom CSS (responsive design)  
-- **Architecture:** No strict architecture (planned: Component-Based / Modular Frontend)  
-- **Tools:** VS Code / WebStorm, Git, GitHub  
-
----
-
-## Architecture
-The project follows a simple modular frontend structure.
-
-Each part of the interface (header, product cards, forms, pages) is separated into logical sections, making the code easier to read and maintain.
-
-This approach allows:
-- Reusability of UI components  
-- Easier scaling of the project  
-- Clear separation of structure, styles, and logic  
-- Faster development and updates  
+- **Language:** Kotlin, Go
+- **Tools:** VS Code, Git, GitHub, Supabase, Figma
 
 ---
 
 ## Screens Description
 
-### Main Page
+### Home Page
 Displays featured products and general store information.
 
 ### Shop Page
@@ -60,7 +43,7 @@ Contact information and feedback form.
 
 ## Design Screenshots
 
-### Main Page
+### Home Page
 (Main page screenshot here)
 
 ### Shop Page
@@ -85,8 +68,7 @@ The project follows a simple Kanban workflow.
 ---
 
 ## Project Structure
-
-
+$ tre.
 
 ---
 
@@ -99,20 +81,8 @@ Maksim Stsepelev @Cursed-ken-kaneki
 ---
 
 ## How to Run
-1. Clone the repository  
-2. Open the project folder  
-3.   
-
----
-
-## Project Status
-The project is in development and can be used as a portfolio or learning project.
-
----
-
-## Future Improvements
-- Add shopping cart functionality  
-- Implement backend (Node.js / Firebase)  
-- Add user authentication system  
-- Connect real database  
-- Improve UI/UX design  
+1. Clone the repository
+   * git clone https://github.com/lopertut/gamer_shop
+3. Open the project folder  
+4. Open backend folder
+5. Run *go run main.go
