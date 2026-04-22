@@ -87,4 +87,8 @@ Maksim Stsepelev @Cursed-ken-kaneki
    ```
 3. Open the project folder  
 4. Open backend folder
-5. Run *go run main.go
+5. Run backend server
+   ```bash
+   go run main.go
+   ```
+   
