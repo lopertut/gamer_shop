@@ -82,7 +82,9 @@ Maksim Stsepelev @Cursed-ken-kaneki
 
 ## How to Run
 1. Clone the repository
-   ```git clone https://github.com/lopertut/gamer_shop
+   ```console
+   clone https://github.com/lopertut/gamer_shop
+   ```
 3. Open the project folder  
 4. Open backend folder
 5. Run *go run main.go
