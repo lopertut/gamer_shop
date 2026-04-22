@@ -18,7 +18,7 @@ The project focuses on frontend development and demonstrates basic e-commerce fu
 
 ## Tech Stack
 - **Language:** Kotlin, Go
-- **Tools:** VS Code, Git, GitHub, Supabase, Figma
+- **Tools:** VS Code, Git, GitHub, Supabase, Figma, Android studio
 
 ---
 
