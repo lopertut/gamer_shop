@@ -134,8 +134,9 @@ Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategoori
 
 Stsenaarium 2 (Kadi):
 Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
-
+##
 Kasutajalood (User Stories)
+---
 ##
 Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
 ##
