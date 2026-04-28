@@ -89,11 +89,26 @@ The project follows a simple Kanban workflow.
 
 
    1. Persoonad
-Persoona 1: Martin, 22
-Üliõpilane, mängur
-Kasutab igapäevaselt arvutit õppimiseks ja mängimiseks
+ Martin, 22
+
+Staatus: üliõpilane
+Huvid: mängimine, tehnoloogia
+
+Käitumine:
+
+Kasutab igapäevaselt arvutit nii õppimiseks kui ka mängimiseks
+On aktiivne digiplatvormide ja veebiteenuste kasutaja
+
+Vajadused:
+
 Otsib taskukohase hinnaga, kuid kvaliteetseid tarvikuid
-Väärtustab kasutajate arvustusi ja kiiret ostuprotsessi
+Eelistab hea hinna ja kvaliteedi suhtega tooteid
+
+Valikukriteeriumid:
+
+Lähtub teiste kasutajate arvustustest
+Hindab kiiret ja mugavat ostuprotsessi
+
 Persoona 2: Kadi, 34
 Kontoritöötaja (turundusspetsialist)
 Vajab tööks usaldusväärseid ja mugavaid seadmeid
