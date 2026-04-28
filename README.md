@@ -67,7 +67,7 @@ The project follows a simple Kanban workflow.
 ---
 
 ## Team Members
-* **[Artur Matvejev](https://github.com/lopertut)** – Backend and frontend
+* **[Artur Matvejev](https://github.com/lopertut)** – Backend, frontend, disain, UI/UX
 * **[Daniel Gvirdzhishvili](https://github.com/Ckoko228)** – Disain ja UI/UX
 * **[Maksim Stsepelev](https://github.com/cursed-ken-kaneki)** – Disain ja UI/UX
 
