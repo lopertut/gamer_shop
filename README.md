@@ -88,25 +88,25 @@ The project follows a simple Kanban workflow.
 
 
  Persoonad
- Martin, 22
+- Martin, 22
 
 Staatus: üliõpilane
 Huvid: mängimine, tehnoloogia
 
 Käitumine:
 
-Kasutab igapäevaselt arvutit nii õppimiseks kui ka mängimiseks
-On aktiivne digiplatvormide ja veebiteenuste kasutaja
+- Kasutab igapäevaselt arvutit nii õppimiseks kui ka mängimiseks
+- On aktiivne digiplatvormide ja veebiteenuste kasutaja
 
 Vajadused:
 
-Otsib taskukohase hinnaga, kuid kvaliteetseid tarvikuid
-Eelistab hea hinna ja kvaliteedi suhtega tooteid
+- Otsib taskukohase hinnaga, kuid kvaliteetseid tarvikuid
+- Eelistab hea hinna ja kvaliteedi suhtega tooteid
 
 Valikukriteeriumid:
 
-Lähtub teiste kasutajate arvustustest
-Hindab kiiret ja mugavat ostuprotsessi
+- Lähtub teiste kasutajate arvustustest
+- Hindab kiiret ja mugavat ostuprotsessi
 
 Persoona 2: Kadi, 34
 
@@ -115,25 +115,25 @@ Huvid: töö efektiivsus, mugavad töövahendid
 
 Käitumine:
 
-Kasutab tehnoloogiat igapäevaselt töö tegemiseks
-Ei ole tehnikaekspert, eelistab lihtsaid ja arusaadavaid lahendusi
+- Kasutab tehnoloogiat igapäevaselt töö tegemiseks
+- Ei ole tehnikaekspert, eelistab lihtsaid ja arusaadavaid lahendusi
 
 Vajadused:
 
-Vajab tööks usaldusväärseid ja mugavaid seadmeid
-Eelistab seadmeid, mis on kergesti kasutatavad ja ei vaja keerulist seadistamist
+- Vajab tööks usaldusväärseid ja mugavaid seadmeid
+- Eelistab seadmeid, mis on kergesti kasutatavad ja ei vaja keerulist seadistamist
 
 Valikukriteeriumid:
 
-Mugavus ja töökindlus on olulisemad kui hind
-Eelistab hästi hinnatud ja populaarseid tooteid
-Stsenaariumid
+- Mugavus ja töökindlus on olulisemad kui hind
+- Eelistab hästi hinnatud ja populaarseid tooteid
+- Stsenaariumid
 
 Stsenaarium 1 (Martin):
-Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategooriat, filtreerib tooteid hinna ja hinnangute järgi ning loeb arvustusi. Ta leiab sobiva hiire, lisab selle ostukorvi ja vormistab tellimuse kiiresti mobiilimaksega.
+- Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategooriat, filtreerib tooteid hinna ja hinnangute järgi ning loeb arvustusi. Ta leiab sobiva hiire, lisab selle ostukorvi ja vormistab tellimuse kiiresti mobiilimaksega.
 
 Stsenaarium 2 (Kadi):
-Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
+- Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
 ##
 Kasutajalood (User Stories)
 ---
