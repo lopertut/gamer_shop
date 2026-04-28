@@ -15,7 +15,7 @@ Gamer Shop is a mobile store designed for gamers. The goal of the project is to 
 ---
 
 ## Project Architecture
-- Application is clent-service
+- Application is client-service
 - Backend is MVC
 - Frontend is something like MVVM
 
