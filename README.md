@@ -84,7 +84,7 @@ The project follows a simple Kanban workflow.
 6. Run backend server
    ```bash
    go run main.go
-   ```
+
 
 
    1. Persoonad
