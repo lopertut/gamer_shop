@@ -87,8 +87,7 @@ The project follows a simple Kanban workflow.
     ```
 
 
-
-   1. Persoonad
+ Persoonad
  Martin, 22
 
 Staatus: üliõpilane
@@ -110,16 +109,33 @@ Lähtub teiste kasutajate arvustustest
 Hindab kiiret ja mugavat ostuprotsessi
 
 Persoona 2: Kadi, 34
-Kontoritöötaja (turundusspetsialist)
+
+Staatus: kontoritöötaja (turundusspetsialist)
+Huvid: töö efektiivsus, mugavad töövahendid
+
+Käitumine:
+
+Kasutab tehnoloogiat igapäevaselt töö tegemiseks
+Ei ole tehnikaekspert, eelistab lihtsaid ja arusaadavaid lahendusi
+
+Vajadused:
+
 Vajab tööks usaldusväärseid ja mugavaid seadmeid
-Ei ole tehnikaekspert, eelistab lihtsat kasutajaliidest
-Hinnast olulisem on mugavus ja töökindlus
-2. Stsenaariumid
+Eelistab seadmeid, mis on kergesti kasutatavad ja ei vaja keerulist seadistamist
+
+Valikukriteeriumid:
+
+Mugavus ja töökindlus on olulisemad kui hind
+Eelistab hästi hinnatud ja populaarseid tooteid
+Stsenaariumid
+
 Stsenaarium 1 (Martin):
 Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategooriat, filtreerib tooteid hinna ja hinnangute järgi ning loeb arvustusi. Ta leiab sobiva hiire, lisab selle ostukorvi ja vormistab tellimuse kiiresti mobiilimaksega.
+
 Stsenaarium 2 (Kadi):
 Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
-3. Kasutajalood (User Stories)
+
+Kasutajalood (User Stories)
 Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
 Kasutajana tahan ma filtreerida ja sorteerida tooteid hinna ja hinnangute järgi, et leida parim valik vastavalt oma eelarvele.
 Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsus.
