@@ -138,13 +138,13 @@ Stsenaarium 2 (Kadi):
 Kasutajalood (User Stories)
 ---
 ##
-Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
+- Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
 ##
-Kasutajana tahan ma filtreerida ja sorteerida tooteid hinna ja hinnangute järgi, et leida parim valik vastavalt oma eelarvele.
+- Kasutajana tahan ma filtreerida ja sorteerida tooteid hinna ja hinnangute järgi, et leida parim valik vastavalt oma eelarvele.
 ##
-Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsus.
+- Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsus.
 ##
-Kasutajana tahan ma lisada toote ostukorvi ja maksta mugavalt mobiilis, et ostuprotsess oleks kiire ja lihtne.
+- Kasutajana tahan ma lisada toote ostukorvi ja maksta mugavalt mobiilis, et ostuprotsess oleks kiire ja lihtne.
 ##
-Kasutajana tahan ma saada soovitusi populaarsete toodete kohta, et leida kvaliteetseid ja usaldusväärseid seadmeid ilma pika otsimiseta.
+- Kasutajana tahan ma saada soovitusi populaarsete toodete kohta, et leida kvaliteetseid ja usaldusväärseid seadmeid ilma pika otsimiseta.
 
