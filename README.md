@@ -85,7 +85,8 @@ The project follows a simple Kanban workflow.
    ```bash
    go run main.go
    ```
-   ##
+
+
    1. Persoonad
 Persoona 1: Martin, 22
 Üliõpilane, mängur
