@@ -146,4 +146,4 @@ Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsu
 Kasutajana tahan ma lisada toote ostukorvi ja maksta mugavalt mobiilis, et ostuprotsess oleks kiire ja lihtne.
 ##
 Kasutajana tahan ma saada soovitusi populaarsete toodete kohta, et leida kvaliteetseid ja usaldusväärseid seadmeid ilma pika otsimiseta.
----
+
