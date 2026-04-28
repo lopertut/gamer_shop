@@ -14,6 +14,12 @@ Gamer Shop is a mobile store designed for gamers. The goal of the project is to 
 
 ---
 
+## Project Architecture
+
+<img width="660" height="827" alt="image" src="https://github.com/user-attachments/assets/12655a4a-3331-470b-b698-8819d59259bd" />
+
+---
+
 ## Tech Stack
 - **Languages:** Kotlin, Go
 - **Tools:** VS Code, Git, GitHub, Figma, Android studio
