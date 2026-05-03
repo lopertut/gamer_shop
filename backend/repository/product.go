@@ -9,7 +9,7 @@ import (
 func (r *Repository) GetProducts(ctx context.Context) ([]model.Product, error) {
 	var products []model.Product
 
-	rows, err := r.pool.Query(ctx, "select * from products;")
+	rows, err := r.pool.Query(ctx, "select * from getProducts;")
 	if err != nil {
 		return products, err
 	}
@@ -18,7 +18,7 @@ func (r *Repository) GetProducts(ctx context.Context) ([]model.Product, error) {
 	for rows.Next() {
 		var p model.Product
 
-		err := rows.Scan(&p.Id, &p.Name, &p.Colour, &p.Price, &p.Type)
+		err := rows.Scan(&p.Id, &p.Name, &p.CategoryName, &p.Price, &p.BrandName, &p.Specifications, &p.AvgRating)
 		if err != nil {
 			log.Println("scan error:", err)
 		}
@@ -32,8 +32,8 @@ func (r *Repository) GetProducts(ctx context.Context) ([]model.Product, error) {
 func (r *Repository) GetProductById(ctx context.Context, id int) (model.Product, error) {
 	var p model.Product
 
-	row := r.pool.QueryRow(ctx, "select * from products where id=$1;", id)
-	err := row.Scan(&p.Id, &p.Name, &p.Colour, &p.Price, &p.Type)
+	row := r.pool.QueryRow(ctx, "select * from get_products where id=$1;", id)
+	err := row.Scan(&p.Id, &p.Name, &p.CategoryName, &p.Price, &p.BrandName, &p.Specifications, &p.AvgRating)
 	if err != nil {
 		return model.Product{}, err
 	}

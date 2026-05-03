@@ -14,8 +14,8 @@ func (s *Service) GetCartItemsByCartId(ctx context.Context, cartId int) ([]model
 	return cartItems, nil
 }
 
-func (s *Service) AddCartItem(ctx context.Context, cartId int, productId int, quantity int) error {
-	err := s.repo.InsertCartItem(ctx, cartId, productId, quantity)
+func (s *Service) AddCartItem(ctx context.Context, cartItem model.CartItem) error {
+	err := s.repo.InsertCartItem(ctx, cartItem)
 	if err != nil {
 		return err
 	}

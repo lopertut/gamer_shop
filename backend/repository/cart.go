@@ -28,9 +28,9 @@ func (r *Repository) GetCartItemsByCartId(ctx context.Context, id int) ([]model.
 	return cartItems, nil
 }
 
-func (r *Repository) InsertCartItem(ctx context.Context, cartId int, productId int, quantity int) error {
+func (r *Repository) InsertCartItem(ctx context.Context, cartItem model.CartItem) error {
 	query := "insert into cart_items(cart_id, product_id, quantity) values($1, $2, $3);"
-	_, err := r.pool.Exec(ctx, query, cartId, productId, quantity)
+	_, err := r.pool.Exec(ctx, query, cartItem.CartId, cartItem.ProductId, cartItem.Quantity)
 	if err != nil {
 		return err
 	}

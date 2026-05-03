@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"backend/model"
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"log"
@@ -24,16 +25,16 @@ func (h *Handler) GetCartItemsByCartId(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) AddCartItem(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-	var req InsertItemForm
+	var cartItem model.CartItem
 
-	err := json.NewDecoder(r.Body).Decode(&req)
+	err := json.NewDecoder(r.Body).Decode(&cartItem)
 	if err != nil {
 		http.Error(w, "invalid request body", http.StatusBadRequest)
 		log.Printf("%v", err)
 		return
 	}
 
-	err = h.service.AddCartItem(ctx, req.CartId, req.ProductId, req.Quantity)
+	err = h.service.AddCartItem(ctx, cartItem)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -61,10 +62,4 @@ func (h *Handler) DeleteCartItem(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("item deleted successfully"))
-}
-
-type InsertItemForm struct {
-	CartId    int `json:"cart_id"`
-	ProductId int `json:"product_id"`
-	Quantity  int `json:"quantity"`
 }
