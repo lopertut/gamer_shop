@@ -34,7 +34,14 @@ func (s *Service) GetOrderItemsByOrderId(ctx context.Context, id int) ([]model.O
 
 func (s *Service) copyCartItems(ctx context.Context, cartItems []model.CartItem) ([]model.OrderItem, error) {
 	orderItems := []model.OrderItem{}
-	return
+
+	for _, cartItem := range cartItems {
+		var orderItem model.OrderItem
+		err := cartItem.Scan() & cartItem.ProductId, &cartItem.Name, &cartItem.Quantity, &cartItem.Price
+
+	}
+
+	return orderItems, nil
 }
 
 func (s *Service) CreateOrder(ctx context.Context, order model.Order, userId int, cartId int) error {

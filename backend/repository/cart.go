@@ -7,7 +7,7 @@ import (
 )
 
 func (r *Repository) GetCartItemsByCartId(ctx context.Context, id int) ([]model.CartItem, error) {
-	rows, err := r.pool.Query(ctx, "select * from cart_items where cart_id=$1", id)
+	rows, err := r.pool.Query(ctx, "select * from get_cart_items where cart_id=$1", id)
 	if err != nil {
 		return []model.CartItem{}, err
 	}
@@ -17,7 +17,7 @@ func (r *Repository) GetCartItemsByCartId(ctx context.Context, id int) ([]model.
 	for rows.Next() {
 		var cartItem model.CartItem
 
-		err = rows.Scan(&cartItem.Id, &cartItem.CartId, &cartItem.ProductId, &cartItem.Quantity)
+		err = rows.Scan(&cartItem.Id, &cartItem.CartId, &cartItem.ProductId, &cartItem.Quantity, &cartItem.Name, &cartItem.Price, &cartItem.Images&cartItem.AvgRating)
 		if err != nil {
 			log.Println("scan error", err)
 		}
