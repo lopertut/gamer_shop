@@ -20,4 +20,5 @@ type OrderItem struct {
 	ProductName string  `json:"product_name"`
 	Quantity    int     `json:"quantity"`
 	Price       float64 `json:"price"`
+	AvgRating   float64 `json:"rating"`
 }

@@ -25,13 +25,14 @@ fun AuthTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    modifier: Modifier = Modifier,
     isPassword: Boolean = false
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
         placeholder = { Text(text = placeholder, color = Color.LightGray) },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(55.dp)
             .clip(RoundedCornerShape(15.dp)),
