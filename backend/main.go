@@ -42,10 +42,15 @@ func main() {
 	router.HandleFunc("/registration", authHandler.Registration).Methods("POST")
 	router.HandleFunc("/login", authHandler.Login).Methods("POST")
 	router.Handle("/cart", authMiddleware.Protect(http.HandlerFunc(h.GetCartItemsByCartId))).Methods("GET")
-	router.HandleFunc("/cartItem", h.AddCartItem).Methods("POST")
-	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE")
+	router.Handle("/cartItem", authMiddleware.Protect(http.HandlerFunc(h.AddCartItem))).Methods("POST")
+	router.HandleFunc("/cartItem/increase/{id}", h.IncreaseCartItem).Methods("PUT")
+	router.HandleFunc("/cartItem/decrease/{id}", h.DecreaseCartItem).Methods("PUT")
+	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE") //TODO:wrap this into authMiddleware
 	router.HandleFunc("/reviews/{product_id}", h.GetReviews).Methods("GET")
 	router.HandleFunc("/reviews", h.AddReview).Methods("POST")
+	router.Handle("/order", authMiddleware.Protect(http.HandlerFunc(h.CreateOrder))).Methods("POST") //TODO:wrapt this into authMiddleware
+	router.Handle("/order", authMiddleware.Protect(http.HandlerFunc(h.GetOrders))).Methods("GET")    //TODO:wrapt this into authMiddleware
+	router.HandleFunc("/orderItems/{id}", h.GetOrderItemsByOrderId).Methods("GET")                   //TODO:wrapt this into authMiddleware
 
 	port := ":8000"
 	fmt.Printf("server is running on: http://localhost%s\n", port)

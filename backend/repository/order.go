@@ -50,3 +50,25 @@ func (r *Repository) GetOrderItemsByOrderId(ctx context.Context, id int) ([]mode
 
 	return orderItems, nil
 }
+
+func (r *Repository) GetOrders(ctx context.Context, userId int) ([]model.Order, error) {
+	rows, err := r.pool.Query(ctx, "select * from orders where user_id=$1", userId)
+	if err != nil {
+		return []model.Order{}, err
+	}
+
+	orders := []model.Order{}
+
+	for rows.Next() {
+		var order model.Order
+
+		err = rows.Scan(&order.UserId, &order.CreatedAt, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice)
+		if err != nil {
+			log.Println("scan error", err)
+		}
+
+		orders = append(orders, order)
+	}
+
+	return orders, nil
+}
