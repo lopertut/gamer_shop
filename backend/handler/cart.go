@@ -12,7 +12,10 @@ import (
 
 func (h *Handler) GetCartItemsByCartId(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+	userId := ctx.Value("user_id").(int)
 	cartId := ctx.Value("cart_id").(int)
+
+	println(userId)
 
 	cartItems, err := h.service.GetCartItemsByCartId(ctx, cartId)
 	if err != nil {

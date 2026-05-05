@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"backend/service"
+	"log"
 )
 
 type AuthMiddleware struct {
@@ -33,6 +34,8 @@ func (m *AuthMiddleware) Protect(next http.Handler) http.Handler {
 			http.Error(w, "invalid token", http.StatusUnauthorized)
 			return
 		}
+
+		log.Printf("JWT RESULT: userId=%v cartId=%v", userId, cartId)
 
 		ctx := context.WithValue(r.Context(), "user_id", userId)
 		ctx = context.WithValue(ctx, "cart_id", cartId)

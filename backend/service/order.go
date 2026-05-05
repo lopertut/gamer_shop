@@ -5,13 +5,13 @@ import (
 	"context"
 )
 
-func (s *Service) addOrder(ctx context.Context, order model.Order) error {
-	err := s.repo.InsertOrder(ctx, order)
+func (s *Service) addOrder(ctx context.Context, order model.Order) (int, error) {
+	id, err := s.repo.InsertOrder(ctx, order)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return id, nil
 }
 
 func (s *Service) addOrderItem(ctx context.Context, orderItem model.OrderItem) error {
@@ -41,11 +41,12 @@ func (s *Service) GetOrders(ctx context.Context, userId int) ([]model.Order, err
 	return orders, nil
 }
 
-func copyCartItems(cartItems []model.CartItem) ([]model.OrderItem, error) {
+func copyCartItems(orderId int, cartItems []model.CartItem) ([]model.OrderItem, error) {
 	orderItems := []model.OrderItem{}
 
 	for _, cartItem := range cartItems {
 		orderItem := model.OrderItem{
+			OrderId:     orderId,
 			ProductId:   cartItem.ProductId,
 			ProductName: cartItem.Name,
 			Quantity:    cartItem.Quantity,
@@ -60,7 +61,7 @@ func copyCartItems(cartItems []model.CartItem) ([]model.OrderItem, error) {
 
 func (s *Service) CreateOrder(ctx context.Context, order model.Order, cartId int) error {
 
-	err := s.addOrder(ctx, order)
+	orderId, err := s.addOrder(ctx, order)
 	if err != nil {
 		return err
 	}
@@ -70,13 +71,16 @@ func (s *Service) CreateOrder(ctx context.Context, order model.Order, cartId int
 		return err
 	}
 
-	orderItems, err := copyCartItems(cartItems)
+	orderItems, err := copyCartItems(orderId, cartItems)
 	if err != nil {
 		return err
 	}
 
 	for _, orderItem := range orderItems {
-		s.repo.InsertOrderItem(ctx, orderItem)
+		err = s.repo.InsertOrderItem(ctx, orderItem)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = s.repo.DeleteCartItems(ctx, cartId)

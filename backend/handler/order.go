@@ -57,7 +57,9 @@ func (h *Handler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	println(userId)
 	order.UserId = userId
+	println(order.UserId)
 
 	err = h.service.CreateOrder(ctx, order, cartId)
 	if err != nil {
