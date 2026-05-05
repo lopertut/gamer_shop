@@ -1,4 +1,4 @@
-package com.app.gamer_shop.views
+package com.app.gamer_shop.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,10 +15,20 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
 
+    private val _product = MutableStateFlow<Product?>(null)
+    val product: StateFlow<Product?> = _product
+
     fun loadProducts() {
         viewModelScope.launch {
             val result = productRepository.fetchProducts()
             _products.value = result
+        }
+    }
+
+    fun loadProductById(id: Int) {
+        viewModelScope.launch {
+            val result = productRepository.fetchProductById(id)
+            _product.value = result
         }
     }
 }

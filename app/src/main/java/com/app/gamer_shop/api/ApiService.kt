@@ -2,11 +2,9 @@ package com.app.gamer_shop.api
 
 import com.app.gamer_shop.models.CartItem
 import com.app.gamer_shop.models.Product
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
@@ -14,7 +12,7 @@ interface ApiService {
     suspend fun getProducts(): List<Product>
 
     @GET("products/{id}")
-    suspend fun getProductById(id: Int): Product
+    suspend fun getProductById(@retrofit2.http.Path("id") id: Int): Product
 
     @GET("cart")
     suspend fun getCart(): List<CartItem>

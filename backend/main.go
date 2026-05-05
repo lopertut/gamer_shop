@@ -44,6 +44,8 @@ func main() {
 	router.Handle("/cart", authMiddleware.Protect(http.HandlerFunc(h.GetCartItemsByCartId))).Methods("GET")
 	router.HandleFunc("/cartItem", h.AddCartItem).Methods("POST")
 	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE")
+	router.HandleFunc("/reviews/{product_id}", h.GetReviews).Methods("GET")
+	router.HandleFunc("/reviews", h.AddReview).Methods("POST")
 
 	port := ":8000"
 	fmt.Printf("server is running on: http://localhost%s\n", port)
