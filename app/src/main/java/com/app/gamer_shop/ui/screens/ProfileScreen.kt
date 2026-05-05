@@ -72,7 +72,7 @@ fun ProfileScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
             
             ProfileMenuItem(text = "Orders", onClick = { 
-                // navController.navigate("orders")
+                navController.navigate("orders")
             })
             
             Spacer(modifier = Modifier.weight(1f))

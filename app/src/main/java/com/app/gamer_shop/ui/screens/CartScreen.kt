@@ -73,7 +73,7 @@ fun CartScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { /* TODO */ },
+                onClick = { navController.navigate("delivery") },
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
                     .height(55.dp)

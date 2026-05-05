@@ -10,8 +10,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.app.gamer_shop.ui.screens.CartScreen
+import com.app.gamer_shop.ui.screens.DeliveryScreen
+import com.app.gamer_shop.ui.screens.PaymentScreen
 import com.app.gamer_shop.ui.screens.HomeScreen
 import com.app.gamer_shop.ui.screens.LoginScreen
+import com.app.gamer_shop.ui.screens.OrderScreen
+import com.app.gamer_shop.ui.screens.OrdersScreen
 import com.app.gamer_shop.ui.screens.ProductScreen
 import com.app.gamer_shop.ui.screens.ProfileScreen
 import com.app.gamer_shop.ui.screens.SignUpScreen
@@ -48,8 +52,21 @@ class MainActivity : ComponentActivity() {
                     composable("cart") {
                         CartScreen(navController = navController)
                     }
+                    composable("delivery") {
+                        DeliveryScreen(navController = navController)
+                    }
+                    composable("payment") {
+                        PaymentScreen(navController = navController)
+                    }
                     composable("profile") {
                         ProfileScreen(navController = navController)
+                    }
+                    composable("orders") {
+                        OrdersScreen(navController = navController)
+                    }
+                    composable("order/{orderId}") { backStackEntry ->
+                        val orderId = backStackEntry.arguments?.getString("orderId")
+                        OrderScreen(navController = navController, orderId = orderId)
                     }
                 }
             }
