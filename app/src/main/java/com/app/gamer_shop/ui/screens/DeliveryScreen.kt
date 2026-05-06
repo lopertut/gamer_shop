@@ -17,6 +17,8 @@ import com.app.gamer_shop.ui.components.Button
 import com.app.gamer_shop.ui.components.Label
 import com.app.gamer_shop.ui.components.NavBar
 import com.app.gamer_shop.ui.theme.Dark
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @Composable
 fun DeliveryScreen(navController: NavController) {
@@ -102,9 +104,10 @@ fun DeliveryScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(40.dp))
 
             Button(
-                text = "Procced",
+                text = "Proceed",
                 onClick = {
-                    navController.navigate("payment")
+                    val encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8.toString())
+                    navController.navigate("payment/$country/$encodedAddress/$postalCode/$firstName/$lastName/$email")
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )

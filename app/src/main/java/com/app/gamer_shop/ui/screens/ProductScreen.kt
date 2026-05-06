@@ -9,9 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import androidx.navigation.NavController
 import com.app.gamer_shop.R
+import com.app.gamer_shop.models.Review
 import com.app.gamer_shop.ui.components.Button
 import com.app.gamer_shop.ui.components.Header
 import com.app.gamer_shop.ui.components.NavBar
@@ -34,16 +33,24 @@ import com.app.gamer_shop.ui.theme.LightBlue
 import com.app.gamer_shop.ui.theme.LightGrey
 import com.app.gamer_shop.viewModels.CartViewModel
 import com.app.gamer_shop.viewModels.ProductViewModel
+import com.app.gamer_shop.viewModels.ReviewViewModel
 
 @Composable
 fun ProductScreen(navController: NavController, productId: String?) {
     val productViewModel: ProductViewModel = hiltViewModel()
     val cartViewModel: CartViewModel = hiltViewModel()
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
+    
     val product by productViewModel.product.collectAsStateWithLifecycle()
+    val reviews by reviewViewModel.reviews.collectAsStateWithLifecycle()
+
+    var reviewText by remember { mutableStateOf("") }
+    var reviewRating by remember { mutableIntStateOf(5) }
 
     LaunchedEffect(productId) {
         productId?.toIntOrNull()?.let {
             productViewModel.loadProductById(it)
+            reviewViewModel.loadReviews(it)
         }
     }
 
@@ -111,7 +118,7 @@ fun ProductScreen(navController: NavController, productId: String?) {
                     )
                 }
 
-                // Price and Rating
+                // Prices and Rating
                 item {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -125,10 +132,10 @@ fun ProductScreen(navController: NavController, productId: String?) {
                             fontWeight = FontWeight.Bold
                         )
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            RatingStars(rating = prod.rating)
+                            RatingStars(rating = prod.rating.toInt())
                             Spacer(modifier = Modifier.width(4.dp))
                             Text(
-                                text = "${prod.rating} (328)",
+                                text = "${prod.rating} (${reviews.size})",
                                 color = Color.White,
                                 fontSize = 14.sp
                             )
@@ -148,16 +155,25 @@ fun ProductScreen(navController: NavController, productId: String?) {
 
                 // Rating Summary
                 item {
-                    RatingSummary()
+                    RatingSummary(reviews)
                 }
 
                 // Review Input
                 item {
-                    ReviewInputBox()
+                    ReviewInputBox(
+                        rating = reviewRating,
+                        onRatingChange = { reviewRating = it },
+                        text = reviewText,
+                        onTextChange = { reviewText = it },
+                        onUpload = {
+                            reviewViewModel.addReview(prod.id, reviewRating, reviewText)
+                            reviewText = ""
+                        }
+                    )
                 }
 
                 // Reviews List
-                items(dummyReviews) { review ->
+                items(reviews) { review ->
                     ReviewItem(review)
                 }
             }
@@ -168,15 +184,22 @@ fun ProductScreen(navController: NavController, productId: String?) {
 }
 
 @Composable
-fun RatingStars(rating: Double) {
+fun RatingStars(rating: Int, onRatingChange: ((Int) -> Unit)? = null) {
     Row {
         repeat(5) { index ->
-            Icon(
-                imageVector = if (index < rating.toInt()) Icons.Filled.Star else Icons.Outlined.Star,
-                contentDescription = null,
-                tint = Color.Yellow,
-                modifier = Modifier.size(18.dp)
-            )
+            val starIndex = index + 1
+            IconButton(
+                onClick = { onRatingChange?.invoke(starIndex) },
+                enabled = onRatingChange != null,
+                modifier = Modifier.size(24.dp)
+            ) {
+                Icon(
+                    imageVector = if (starIndex <= rating) Icons.Filled.Star else Icons.Outlined.Star,
+                    contentDescription = null,
+                    tint = Color.Yellow,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }
@@ -206,7 +229,9 @@ fun SpecItem(spec: Pair<String, Any>, modifier: Modifier) {
 }
 
 @Composable
-fun RatingSummary() {
+fun RatingSummary(reviews: List<Review>) {
+    val averageRating = if (reviews.isEmpty()) 0.0 else reviews.map { it.rating }.average()
+    
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -215,15 +240,18 @@ fun RatingSummary() {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(text = "4.8", color = Color.White, fontSize = 32.sp, fontWeight = FontWeight.Bold)
-            RatingStars(rating = 4.8)
+            Text(
+                text = String.format("%.1f", averageRating),
+                color = Color.White,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold
+            )
+            RatingStars(rating = averageRating.toInt())
         }
         Column {
-            RatingRow(5, 300)
-            RatingRow(4, 25)
-            RatingRow(3, 0)
-            RatingRow(2, 0)
-            RatingRow(1, 1)
+            for (i in 5 downTo 1) {
+                RatingRow(i, reviews.count { it.rating == i })
+            }
         }
     }
 }
@@ -237,7 +265,13 @@ fun RatingRow(stars: Int, count: Int) {
 }
 
 @Composable
-fun ReviewInputBox() {
+fun ReviewInputBox(
+    rating: Int,
+    onRatingChange: (Int) -> Unit,
+    text: String,
+    onTextChange: (String) -> Unit,
+    onUpload: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -245,16 +279,23 @@ fun ReviewInputBox() {
             .background(LightGrey)
             .padding(15.dp)
     ) {
-        RatingStars(rating = 4.0)
+        RatingStars(rating = rating, onRatingChange = onRatingChange)
         Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            text = "write yor opinion here ".repeat(10),
-            color = Color.White,
-            fontSize = 12.sp
+        TextField(
+            value = text,
+            onValueChange = onTextChange,
+            modifier = Modifier.fillMaxWidth(),
+            placeholder = { Text("Write your opinion here", color = Color.Gray) },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
         )
         Spacer(modifier = Modifier.height(15.dp))
         Button(
-            onClick = { /* TODO */ },
+            onClick = onUpload,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(35.dp),
@@ -267,14 +308,6 @@ fun ReviewInputBox() {
     }
 }
 
-data class Review(val user: String, val date: String, val rating: Double, val text: String)
-
-val dummyReviews = listOf(
-    Review("Usermae", "dd.mm.yyyy", 4.0, "Text ".repeat(20)),
-    Review("Usermae", "dd.mm.yyyy", 4.0, "Text ".repeat(20)),
-    Review("Aleksei Martinov", "12.06.2027", 5.0, "Text ".repeat(20))
-)
-
 @Composable
 fun ReviewItem(review: Review) {
     Column(modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp)) {
@@ -285,10 +318,12 @@ fun ReviewItem(review: Review) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             RatingStars(rating = review.rating)
-            Text(text = review.user, color = Color.Gray, fontSize = 12.sp)
-            Text(text = review.date, color = Color.Gray, fontSize = 12.sp)
+            Text(text = review.username ?: "Anonymous", color = Color.Gray, fontSize = 12.sp)
+            // Backend might not return a date in the format you expect, or we might need to parse it.
+            // For now, let's keep it simple.
+            Text(text = "", color = Color.Gray, fontSize = 12.sp)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = review.text, color = Color.White, fontSize = 12.sp)
+        Text(text = review.comment, color = Color.White, fontSize = 12.sp)
     }
 }

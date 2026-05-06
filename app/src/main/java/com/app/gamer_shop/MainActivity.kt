@@ -6,19 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.app.gamer_shop.ui.screens.CartScreen
-import com.app.gamer_shop.ui.screens.DeliveryScreen
-import com.app.gamer_shop.ui.screens.PaymentScreen
-import com.app.gamer_shop.ui.screens.HomeScreen
-import com.app.gamer_shop.ui.screens.LoginScreen
-import com.app.gamer_shop.ui.screens.OrderScreen
-import com.app.gamer_shop.ui.screens.OrdersScreen
-import com.app.gamer_shop.ui.screens.ProductScreen
-import com.app.gamer_shop.ui.screens.ProfileScreen
-import com.app.gamer_shop.ui.screens.SignUpScreen
+import androidx.navigation.navArgument
+import com.app.gamer_shop.ui.screens.*
 import com.app.gamer_shop.ui.theme.Gamer_shopTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,8 +48,26 @@ class MainActivity : ComponentActivity() {
                     composable("delivery") {
                         DeliveryScreen(navController = navController)
                     }
-                    composable("payment") {
-                        PaymentScreen(navController = navController)
+                    composable(
+                        route = "payment/{country}/{address}/{postalCode}/{firstName}/{lastName}/{email}",
+                        arguments = listOf(
+                            navArgument("country") { type = NavType.StringType },
+                            navArgument("address") { type = NavType.StringType },
+                            navArgument("postalCode") { type = NavType.StringType },
+                            navArgument("firstName") { type = NavType.StringType },
+                            navArgument("lastName") { type = NavType.StringType },
+                            navArgument("email") { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        PaymentScreen(
+                            navController = navController,
+                            country = backStackEntry.arguments?.getString("country") ?: "",
+                            address = backStackEntry.arguments?.getString("address") ?: "",
+                            postalCode = backStackEntry.arguments?.getString("postalCode") ?: "",
+                            firstName = backStackEntry.arguments?.getString("firstName") ?: "",
+                            lastName = backStackEntry.arguments?.getString("lastName") ?: "",
+                            email = backStackEntry.arguments?.getString("email") ?: ""
+                        )
                     }
                     composable("profile") {
                         ProfileScreen(navController = navController)

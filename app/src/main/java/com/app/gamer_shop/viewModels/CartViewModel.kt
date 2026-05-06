@@ -3,69 +3,73 @@ package com.app.gamer_shop.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.gamer_shop.models.CartItem
-import com.app.gamer_shop.models.Product
 import com.app.gamer_shop.repositories.CartRepository
-import com.app.gamer_shop.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class CartUiItem(
-    val cartItem: CartItem,
-    val product: Product
-)
-
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository,
-    private val productRepository: ProductRepository
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
-    private val _cartItems = MutableStateFlow<List<CartUiItem>>(emptyList())
-    val cartItems: StateFlow<List<CartUiItem>> = _cartItems
+    private val _cartItems = MutableStateFlow<List<CartItem>>(emptyList())
+    val cartItems: StateFlow<List<CartItem>> = _cartItems
 
     fun loadCart() {
         viewModelScope.launch {
-            val items = cartRepository.getCart()
-            val uiItems = items.mapNotNull { item ->
+            try {
+                val items = cartRepository.getCart()
+                _cartItems.value = items
+            } catch (e: Exception) {
+                // Handle error (e.g., log it or update an error state)
+            }
+        }
+    }
+
+    fun increaseCartItem(item: CartItem) {
+        viewModelScope.launch {
+            try {
+                val success = cartRepository.increaseCartItem(item.id)
+                if (success) loadCart()
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
+    }
+
+    fun decreaseCartItem(item: CartItem) {
+            viewModelScope.launch {
                 try {
-                    val product = productRepository.fetchProductById(item.productId)
-                    CartUiItem(item, product)
+                    val success = cartRepository.decreaseCartItem(item.id)
+                    if (success) loadCart()
                 } catch (e: Exception) {
-                    null
+                    // Handle error
                 }
             }
-            _cartItems.value = uiItems
         }
-    }
-
-    fun incrementQuantity(item: CartUiItem) {
-        viewModelScope.launch {
-            val success = cartRepository.addCartItem(item.cartItem.cartId, item.cartItem.productId, item.cartItem.quantity + 1)
-            if (success) loadCart()
-        }
-    }
-
-    fun decrementQuantity(item: CartUiItem) {
-        if (item.cartItem.quantity > 1) {
-            viewModelScope.launch {
-                val success = cartRepository.addCartItem(item.cartItem.cartId, item.cartItem.productId, item.cartItem.quantity - 1)
-                if (success) loadCart()
-            }
-        } else {
-            viewModelScope.launch {
-                val success = cartRepository.deleteCartIem(item.cartItem.id)
-                if (success) loadCart()
-            }
-        }
-    }
 
     fun addToCart(productId: Int) {
+        println(productId)
         viewModelScope.launch {
-            // Assuming cartId 1 for now or fetching it from a user session
-            cartRepository.addCartItem(1, productId, 1)
+            try {
+                cartRepository.addCartItem(productId = productId, quantity = 1)
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
+    }
+
+    fun deleteCartItem(item: CartItem) {
+        viewModelScope.launch {
+            try {
+                val success = cartRepository.deleteCartItem(item.id)
+                if (success) loadCart()
+            } catch (e: Exception) {
+                // Handle error
+            }
         }
     }
 }
