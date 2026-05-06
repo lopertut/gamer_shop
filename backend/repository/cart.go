@@ -17,7 +17,7 @@ func (r *Repository) GetCartItemsByCartId(ctx context.Context, id int) ([]model.
 	for rows.Next() {
 		var cartItem model.CartItem
 
-		err = rows.Scan(&cartItem.Id, &cartItem.CartId, &cartItem.ProductId, &cartItem.Quantity, &cartItem.Name, &cartItem.Price, &cartItem.Images&cartItem.AvgRating)
+		err = rows.Scan(&cartItem.Id, &cartItem.CartId, &cartItem.ProductId, &cartItem.Quantity, &cartItem.Name, &cartItem.Price, &cartItem.Images, &cartItem.AvgRating)
 		if err != nil {
 			log.Println("scan error", err)
 		}
@@ -38,8 +38,39 @@ func (r *Repository) InsertCartItem(ctx context.Context, cartItem model.CartItem
 	return nil
 }
 
+func (r *Repository) IncreaseCartItem(ctx context.Context, id int) error {
+	_, err := r.pool.Exec(ctx, "update cart_items set quantity = quantity + 1 where id=$1", id)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *Repository) DecreaseCartItem(ctx context.Context, id int) error {
+	_, err := r.pool.Exec(ctx, "update cart_items set quantity = quantity - 1 where id=$1", id)
+	if err != nil {
+		return err
+	}
+
+	_, err = r.pool.Exec(ctx, "delete from cart_items where id=$1 and quantity <= 0", id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (r *Repository) DeleteCartItem(ctx context.Context, id int) error {
 	_, err := r.pool.Exec(ctx, "delete from cart_items where id=$1", id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *Repository) DeleteCartItems(ctx context.Context, cartId int) error {
+	_, err := r.pool.Exec(ctx, "delete from cart_items where cart_id=$1", cartId)
 	if err != nil {
 		return err
 	}

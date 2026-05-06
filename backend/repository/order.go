@@ -6,20 +6,22 @@ import (
 	"log"
 )
 
-func (r *Repository) InsertOrder(ctx context.Context, order model.Order) error {
-	query := "insert into orders(country, address, postal_code, firstname, lastname, email, total_price)"
+func (r *Repository) InsertOrder(ctx context.Context, order model.Order) (int, error) {
+	query := "insert into orders(user_id, country, address, postal_code, firstname, lastname, email, total_price) values($1, $2, $3, $4, $5, $6, $7, $8) returning id"
 
-	_, err := r.pool.Exec(ctx, query, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice)
+	var id int
+
+	err := r.pool.QueryRow(ctx, query, &order.UserId, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice).Scan(&id)
 	if err != nil {
-		return err
+		return 0, err
 	}
 
-	return nil
+	return id, nil
 }
 
 // TODO: maybe insert list of orderItems
 func (r *Repository) InsertOrderItem(ctx context.Context, orderItem model.OrderItem) error {
-	query := "insert into order_items(order_id, product_id, product_name, quantity, price)"
+	query := "insert into order_items(order_id, product_id, product_name, quantity, price) values($1, $2, $3, $4, $5)"
 
 	_, err := r.pool.Exec(ctx, query, &orderItem.OrderId, &orderItem.ProductId, &orderItem.ProductName, &orderItem.Quantity, &orderItem.Price)
 	if err != nil {
@@ -49,4 +51,26 @@ func (r *Repository) GetOrderItemsByOrderId(ctx context.Context, id int) ([]mode
 	}
 
 	return orderItems, nil
+}
+
+func (r *Repository) GetOrders(ctx context.Context, userId int) ([]model.Order, error) {
+	rows, err := r.pool.Query(ctx, "select * from orders where user_id=$1", userId)
+	if err != nil {
+		return []model.Order{}, err
+	}
+
+	orders := []model.Order{}
+
+	for rows.Next() {
+		var order model.Order
+
+		err = rows.Scan(&order.UserId, &order.CreatedAt, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice)
+		if err != nil {
+			log.Println("scan error", err)
+		}
+
+		orders = append(orders, order)
+	}
+
+	return orders, nil
 }

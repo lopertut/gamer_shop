@@ -23,6 +23,24 @@ func (s *Service) AddCartItem(ctx context.Context, cartItem model.CartItem) erro
 	return nil
 }
 
+func (s *Service) IncreaseCartItem(ctx context.Context, id int) error {
+	err := s.repo.IncreaseCartItem(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *Service) DecreaseCartItem(ctx context.Context, id int) error {
+	err := s.repo.DecreaseCartItem(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *Service) DeleteCartItem(ctx context.Context, id int) error {
 	err := s.repo.DeleteCartItem(ctx, id)
 	if err != nil {

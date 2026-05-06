@@ -33,6 +33,7 @@ func (h *Handler) GetReviews(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) AddReview(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
+	userId := ctx.Value("user_id").(int)
 	var review model.Review
 
 	err := json.NewDecoder(r.Body).Decode(&review)
@@ -41,6 +42,8 @@ func (h *Handler) AddReview(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%v", err)
 		return
 	}
+
+	review.UserId = userId
 
 	err = h.service.AddReview(ctx, review)
 	if err != nil {
