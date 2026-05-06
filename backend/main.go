@@ -47,7 +47,7 @@ func main() {
 	router.HandleFunc("/cartItem/decrease/{id}", h.DecreaseCartItem).Methods("PUT")
 	router.HandleFunc("/cartItem/{id}", h.DeleteCartItem).Methods("DELETE") //TODO:wrap this into authMiddleware
 	router.HandleFunc("/reviews/{product_id}", h.GetReviews).Methods("GET")
-	router.HandleFunc("/reviews", h.AddReview).Methods("POST")
+	router.Handle("/reviews", authMiddleware.Protect(http.HandlerFunc(h.AddReview))).Methods("POST")
 	router.Handle("/order", authMiddleware.Protect(http.HandlerFunc(h.CreateOrder))).Methods("POST") //TODO:wrapt this into authMiddleware
 	router.Handle("/order", authMiddleware.Protect(http.HandlerFunc(h.GetOrders))).Methods("GET")    //TODO:wrapt this into authMiddleware
 	router.HandleFunc("/orderItems/{id}", h.GetOrderItemsByOrderId).Methods("GET")                   //TODO:wrapt this into authMiddleware

@@ -9,7 +9,7 @@ import (
 func (r *Repository) GetReviews(ctx context.Context, productId int) ([]model.Review, error) {
 	var reviews []model.Review
 
-	rows, err := r.pool.Query(ctx, "select * from reviews where product_id=$1", productId)
+	rows, err := r.pool.Query(ctx, "select * from get_reviews where product_id=$1", productId)
 	if err != nil {
 		return reviews, err
 	}
@@ -17,7 +17,7 @@ func (r *Repository) GetReviews(ctx context.Context, productId int) ([]model.Rev
 	for rows.Next() {
 		var rev model.Review
 
-		err := rows.Scan(&rev.Id, &rev.ProductId, &rev.UserId, &rev.Rating, &rev.Comment, &rev.CreatedAt)
+		err := rows.Scan(&rev.Id, &rev.ProductId, &rev.UserId, &rev.Rating, &rev.Comment, &rev.CreatedAt, &rev.Username)
 		if err != nil {
 			log.Println("scan error:", err)
 		}
