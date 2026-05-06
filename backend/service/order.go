@@ -26,7 +26,7 @@ func (s *Service) addOrderItem(ctx context.Context, orderItem model.OrderItem) e
 func (s *Service) GetOrderItemsByOrderId(ctx context.Context, id int) ([]model.OrderItem, error) {
 	orderItems, err := s.repo.GetOrderItemsByOrderId(ctx, id)
 	if err != nil {
-		return orderItems, err
+		return nil, err
 	}
 
 	return orderItems, nil
@@ -35,7 +35,7 @@ func (s *Service) GetOrderItemsByOrderId(ctx context.Context, id int) ([]model.O
 func (s *Service) GetOrders(ctx context.Context, userId int) ([]model.Order, error) {
 	orders, err := s.repo.GetOrders(ctx, userId)
 	if err != nil {
-		return orders, err
+		return nil, err
 	}
 
 	return orders, nil

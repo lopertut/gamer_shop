@@ -11,7 +11,7 @@ func (r *Repository) GetReviews(ctx context.Context, productId int) ([]model.Rev
 
 	rows, err := r.pool.Query(ctx, "select * from get_reviews where product_id=$1", productId)
 	if err != nil {
-		return reviews, err
+		return nil, err
 	}
 
 	for rows.Next() {

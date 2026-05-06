@@ -8,7 +8,7 @@ import (
 func (s *Service) GetReviews(ctx context.Context, productId int) ([]model.Review, error) {
 	reviews, err := s.repo.GetReviews(ctx, productId)
 	if err != nil {
-		return reviews, err
+		return nil, err
 	}
 
 	return reviews, nil
