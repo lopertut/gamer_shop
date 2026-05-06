@@ -67,7 +67,7 @@ fun ProductCard(modifier: Modifier = Modifier, product: Product, onClick: () -> 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = product.name,
+                text = product.name ?: "Unknown",
                 color = Color.White,
                 style = TextStyle(
                     fontSize = 13.sp,

@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -16,25 +18,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.app.gamer_shop.R
+import com.app.gamer_shop.models.Order
 import com.app.gamer_shop.ui.components.NavBar
 import com.app.gamer_shop.ui.theme.Dark
 import com.app.gamer_shop.ui.theme.LightGrey
-
-data class Order(
-    val code: String,
-    val status: String,
-    val price: String
-)
+import com.app.gamer_shop.viewModels.OrderViewModel
 
 @Composable
 fun OrdersScreen(navController: NavController) {
-    val orders = listOf(
-        Order("\$KFgkd2343kd", "delivered", "500$"),
-        Order("\$KFgkd2343kd", "delivered", "500$"),
-        Order("\$KFgkd2343kd", "delivered", "500$")
-    )
+    val viewModel: OrderViewModel = hiltViewModel()
+    val orders by viewModel.orders.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchOrders()
+    }
 
     Scaffold(
         bottomBar = { NavBar(navController = navController) },
@@ -61,7 +62,7 @@ fun OrdersScreen(navController: NavController) {
             ) {
                 items(orders) { order ->
                     OrderCard(order, onClick = {
-                        navController.navigate("order/${order.code}")
+                        navController.navigate("order/${order.id}")
                     })
                 }
             }
@@ -82,13 +83,13 @@ fun OrderCard(order: Order, onClick: () -> Unit) {
         Column(verticalArrangement = Arrangement.spacedBy(15.dp)) {
             Row {
                 Text(
-                    text = "Order code: ",
+                    text = "Order id: ",
                     color = Color.White,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = order.code,
+                    text = order.id.toString(),
                     color = Color.White,
                     fontSize = 20.sp
                 )
@@ -101,7 +102,7 @@ fun OrderCard(order: Order, onClick: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = order.status,
+                    text = order.status ?: "Unknown",
                     color = Color.White,
                     fontSize = 20.sp
                 )
@@ -114,7 +115,7 @@ fun OrderCard(order: Order, onClick: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = order.price,
+                    text = "${order.totalPrice}$",
                     color = Color.White,
                     fontSize = 20.sp
                 )

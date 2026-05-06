@@ -42,7 +42,7 @@ func (r *Repository) GetOrderItemsByOrderId(ctx context.Context, id int) ([]mode
 	for rows.Next() {
 		var orderItem model.OrderItem
 
-		err = rows.Scan(&orderItem.OrderId, &orderItem.ProductId, &orderItem.ProductName, &orderItem.Quantity, &orderItem.Price)
+		err = rows.Scan(&orderItem.Id, &orderItem.OrderId, &orderItem.ProductId, &orderItem.ProductName, &orderItem.Quantity, &orderItem.Price)
 		if err != nil {
 			log.Println("scan error", err)
 		}
@@ -64,7 +64,7 @@ func (r *Repository) GetOrders(ctx context.Context, userId int) ([]model.Order, 
 	for rows.Next() {
 		var order model.Order
 
-		err = rows.Scan(&order.UserId, &order.CreatedAt, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice)
+		err = rows.Scan(&order.Id, &order.UserId, &order.CreatedAt, &order.Country, &order.Address, &order.PostalCode, &order.FirstName, &order.LastName, &order.Email, &order.TotalPrice)
 		if err != nil {
 			log.Println("scan error", err)
 		}

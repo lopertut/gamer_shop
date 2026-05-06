@@ -111,7 +111,7 @@ fun ProductScreen(navController: NavController, productId: String?) {
                 // Title
                 item {
                     Text(
-                        text = prod.name,
+                        text = prod.name ?: "Unknown",
                         color = Color.White,
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
@@ -145,7 +145,7 @@ fun ProductScreen(navController: NavController, productId: String?) {
 
                 // Specs
                 item {
-                    SpecsGrid(prod.specs)
+                    prod.specs?.let { SpecsGrid(it) }
                 }
 
                 // Add to Cart Button
@@ -324,6 +324,6 @@ fun ReviewItem(review: Review) {
             Text(text = "", color = Color.Gray, fontSize = 12.sp)
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = review.comment, color = Color.White, fontSize = 12.sp)
+        Text(text = review.comment ?: "", color = Color.White, fontSize = 12.sp)
     }
 }

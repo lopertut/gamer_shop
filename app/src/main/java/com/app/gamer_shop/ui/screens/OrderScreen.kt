@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,14 +18,32 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.app.gamer_shop.R
+import com.app.gamer_shop.models.Order
+import com.app.gamer_shop.models.OrderItem
 import com.app.gamer_shop.ui.components.NavBar
 import com.app.gamer_shop.ui.theme.Dark
 import com.app.gamer_shop.ui.theme.LightGrey
+import com.app.gamer_shop.viewModels.OrderViewModel
 
 @Composable
 fun OrderScreen(navController: NavController, orderId: String?) {
+    val viewModel: OrderViewModel = hiltViewModel()
+    val orderItems by viewModel.orderItems.collectAsStateWithLifecycle()
+    val orders by viewModel.orders.collectAsStateWithLifecycle()
+
+    val currentOrder = orders.find { it.id == orderId?.toIntOrNull() }
+
+    LaunchedEffect(orderId) {
+        orderId?.toIntOrNull()?.let {
+            viewModel.fetchOrderItems(it)
+            viewModel.fetchOrders()
+        }
+    }
+
     Scaffold(
         bottomBar = { NavBar(navController = navController) },
         containerColor = Dark,
@@ -47,13 +67,13 @@ fun OrderScreen(navController: NavController, orderId: String?) {
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
-                items(3) { // Mocking 3 items as in the image
-                    OrderDetailItem()
+                items(orderItems) { item ->
+                    OrderItemCard(item)
                 }
 
                 item {
                     Spacer(modifier = Modifier.height(20.dp))
-                    OrderSummary()
+                    OrderSummary(currentOrder)
                 }
             }
         }
@@ -61,7 +81,7 @@ fun OrderScreen(navController: NavController, orderId: String?) {
 }
 
 @Composable
-fun OrderDetailItem() {
+fun OrderItemCard(item: OrderItem) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,20 +109,36 @@ fun OrderDetailItem() {
             modifier = Modifier.fillMaxHeight(),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Product Name", color = Color.White, fontSize = 16.sp)
-            Text(text = "price", color = Color.White, fontSize = 16.sp)
-            Text(text = "quantity", color = Color.White, fontSize = 16.sp)
+            Text(
+                text = item.productName ?: "Product Name",
+                color = Color.White,
+                fontSize = 16.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "${item.price}$", color = Color.White, fontSize = 14.sp)
+                Text(text = "x${item.quantity}", color = Color.LightGray, fontSize = 14.sp)
+            }
+            Text(
+                text = "Total: ${item.price * item.quantity}$",
+                color = com.app.gamer_shop.ui.theme.LightBlue,
+                fontSize = 16.sp,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+            )
         }
     }
 }
 
 @Composable
-fun OrderSummary() {
+fun OrderSummary(order: Order?) {
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        SummaryInfoRow("delivery address:", "estonia, tallinn, tallinn mnt.")
-        SummaryInfoRow("Name:", "Abdul Ahmath")
-        SummaryInfoRow("Email:", "test@email.com")
-        SummaryInfoRow("time order:", "23.12.2023")
+        SummaryInfoRow("delivery address:", order?.let { "${it.country}, ${it.address}" } ?: "")
+        SummaryInfoRow("Name:", order?.let { "${it.firstname} ${it.lastname}" } ?: "")
+        SummaryInfoRow("Email:", order?.email ?: "")
+        SummaryInfoRow("time order:", order?.createdAt ?: "")
     }
 }
 
