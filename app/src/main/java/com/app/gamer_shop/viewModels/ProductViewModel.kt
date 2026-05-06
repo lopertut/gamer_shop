@@ -18,17 +18,30 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
     private val _product = MutableStateFlow<Product?>(null)
     val product: StateFlow<Product?> = _product
 
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+
     fun loadProducts() {
         viewModelScope.launch {
-            val result = productRepository.fetchProducts()
-            _products.value = result
+            try {
+                _error.value = null
+                val result = productRepository.fetchProducts()
+                _products.value = result
+            } catch (e: Exception) {
+                _error.value = "Failed to load products: ${e.message}"
+            }
         }
     }
 
     fun loadProductById(id: Int) {
         viewModelScope.launch {
-            val result = productRepository.fetchProductById(id)
-            _product.value = result
+            try {
+                _error.value = null
+                val result = productRepository.fetchProductById(id)
+                _product.value = result
+            } catch (e: Exception) {
+                _error.value = "Failed to load product: ${e.message}"
+            }
         }
     }
 }

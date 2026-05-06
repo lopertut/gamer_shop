@@ -12,14 +12,27 @@ class CartRepository @Inject constructor(private val api: ApiService) {
         return api.getCart()
     }
 
-    suspend fun addCartItem(cartId: Int, productId: Int, quantity: Int): Boolean {
-        val response = api.addCartItem(AddRequest(cartId, productId, quantity))
+    suspend fun addCartItem(productId: Int, quantity: Int): Boolean {
+        println(productId)
+        val response = api.addCartItem(AddRequest(productId, quantity))
 
         return response.status != ""
     }
 
-    suspend fun deleteCartIem(id: Int): Boolean {
+    suspend fun deleteCartItem(id: Int): Boolean {
         val response = api.deleteCartItem(id)
+
+        return response.status != ""
+    }
+
+    suspend fun increaseCartItem(id: Int): Boolean {
+        val response = api.increaseCartItem(id)
+
+        return response.status != ""
+    }
+
+    suspend fun decreaseCartItem(id: Int): Boolean {
+        val response = api.decreaseCartItem(id)
 
         return response.status != ""
     }
