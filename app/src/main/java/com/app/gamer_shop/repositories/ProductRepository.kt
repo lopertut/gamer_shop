@@ -7,8 +7,16 @@ import jakarta.inject.Singleton
 
 @Singleton
 class ProductRepository @Inject constructor(private val api: ApiService) {
-    suspend fun fetchProducts(category: String? = null, search: String? = null): List<Product> {
-        return api.getProducts(category, search)
+    suspend fun fetchProducts(): List<Product> {
+        return api.getProducts()
+    }
+
+    suspend fun fetchProductsByCategory(category: String): List<Product> {
+        return api.getProductsByCategory(category)
+    }
+
+    suspend fun searchProducts(query: String): List<Product> {
+        return api.searchProducts(query)
     }
 
     suspend fun fetchProductById(id: Int): Product {

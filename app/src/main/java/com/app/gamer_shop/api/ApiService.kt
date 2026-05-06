@@ -1,6 +1,8 @@
 package com.app.gamer_shop.api
 
 import com.app.gamer_shop.models.CartItem
+import com.app.gamer_shop.models.Order
+import com.app.gamer_shop.models.OrderItem
 import com.app.gamer_shop.models.Product
 import com.app.gamer_shop.models.Review
 import com.google.gson.annotations.SerializedName
@@ -8,10 +10,13 @@ import retrofit2.http.*
 
 interface ApiService {
     @GET("products")
-    suspend fun getProducts(
-        @Query("category") category: String? = null,
-        @Query("search") search: String? = null
-    ): List<Product>
+    suspend fun getProducts(): List<Product>
+
+    @GET("products/category/{name}")
+    suspend fun getProductsByCategory(@Path("name") categoryName: String): List<Product>
+
+    @GET("products/search/{searchQuery}")
+    suspend fun searchProducts(@Path("searchQuery") searchQuery: String): List<Product>
 
     @GET("products/{id}")
     suspend fun getProductById(@Path("id") id: Int): Product
@@ -39,6 +44,12 @@ interface ApiService {
 
     @POST("order")
     suspend fun createOrder(@Body request: OrderRequest): Response
+
+    @GET("order")
+    suspend fun getOrders(): List<Order>
+
+    @GET("orderItems/{id}")
+    suspend fun getOrderItems(@Path("id") id: Int): List<OrderItem>
 
     @GET("reviews/{product_id}")
     suspend fun getReviews(@Path("product_id") productId: Int): List<Review>

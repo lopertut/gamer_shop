@@ -25,7 +25,11 @@ class ProductViewModel @Inject constructor(private val productRepository: Produc
         viewModelScope.launch {
             try {
                 _error.value = null
-                val result = productRepository.fetchProducts(category, search)
+                val result = when {
+                    !search.isNullOrEmpty() -> productRepository.searchProducts(search)
+                    !category.isNullOrEmpty() && category != "All" -> productRepository.fetchProductsByCategory(category)
+                    else -> productRepository.fetchProducts()
+                }
                 _products.value = result
             } catch (e: Exception) {
                 _error.value = "Failed to load products: ${e.message}"
