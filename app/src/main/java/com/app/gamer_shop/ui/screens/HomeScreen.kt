@@ -20,9 +20,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,8 +51,11 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     val productViewModel: ProductViewModel = hiltViewModel()
     val products by productViewModel.products.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
-        productViewModel.loadProducts()
+    var searchQuery by remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(searchQuery, selectedCategory) {
+        productViewModel.loadProducts(category = selectedCategory, search = searchQuery)
     }
 
     Scaffold(
@@ -70,10 +77,18 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
                 Header()
             }
             item {
-                SearchField()
+                SearchField(
+                    value = searchQuery,
+                    onValueChange = { searchQuery = it }
+                )
             }
             item {
-                CategoryNav()
+                CategoryNav(
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = { 
+                        selectedCategory = if (selectedCategory == it) null else it 
+                    }
+                )
             }
             items(products.chunked(2)) { pair ->
                 Row(
@@ -99,7 +114,11 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SearchField(modifier: Modifier = Modifier) {
+fun SearchField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -117,43 +136,63 @@ fun SearchField(modifier: Modifier = Modifier) {
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(
-                text = "Search our products...",
-                color = Color.LightGray,
-                fontSize = 14.sp
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 14.sp),
+                modifier = Modifier.fillMaxWidth(),
+                decorationBox = { innerTextField ->
+                    if (value.isEmpty()) {
+                        Text(
+                            text = "Search our products...",
+                            color = Color.LightGray,
+                            fontSize = 14.sp
+                        )
+                    }
+                    innerTextField()
+                }
             )
         }
     }
 }
 
 @Composable
-fun CategoryNav(modifier: Modifier = Modifier) {
+fun CategoryNav(
+    selectedCategory: String?,
+    onCategorySelected: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.fillMaxWidth()
     ) {
-        CategoryItem(R.drawable.ic_mouse)
-        CategoryItem(R.drawable.ic_keyboard)
-        CategoryItem(R.drawable.ic_headphone)
-        CategoryItem(R.drawable.ic_monitor)
+        CategoryItem(R.drawable.ic_mouse, "Mouse", selectedCategory == "Mouse") { onCategorySelected("Mouse") }
+        CategoryItem(R.drawable.ic_keyboard, "Keyboard", selectedCategory == "Keyboard") { onCategorySelected("Keyboard") }
+        CategoryItem(R.drawable.ic_headphone, "headphone", selectedCategory == "headphone") { onCategorySelected("headphone") }
+        CategoryItem(R.drawable.ic_monitor, "Monitor", selectedCategory == "Monitor") { onCategorySelected("Monitor") }
     }
 }
 
 @Composable
-fun CategoryItem(iconRes: Int) {
+fun CategoryItem(
+    iconRes: Int,
+    name: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
     Box(
         modifier = Modifier
             .size(50.dp)
             .clip(CircleShape)
-            .background(LightGrey),
+            .background(if (isSelected) Color.White else LightGrey),
         contentAlignment = Alignment.Center
     ) {
-        IconButton(onClick = { /* TODO */ }) {
+        IconButton(onClick = onClick) {
             Icon(
                 painter = painterResource(iconRes),
-                contentDescription = null,
-                tint = Color.White,
+                contentDescription = name,
+                tint = if (isSelected) Color.Black else Color.White,
                 modifier = Modifier.size(35.dp)
             )
         }
