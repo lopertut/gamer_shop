@@ -8,7 +8,10 @@ import retrofit2.http.*
 
 interface ApiService {
     @GET("products")
-    suspend fun getProducts(): List<Product>
+    suspend fun getProducts(
+        @Query("category") category: String? = null,
+        @Query("search") search: String? = null
+    ): List<Product>
 
     @GET("products/{id}")
     suspend fun getProductById(@Path("id") id: Int): Product
