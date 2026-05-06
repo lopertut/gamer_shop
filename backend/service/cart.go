@@ -8,7 +8,7 @@ import (
 func (s *Service) GetCartItemsByCartId(ctx context.Context, cartId int) ([]model.CartItem, error) {
 	cartItems, err := s.repo.GetCartItemsByCartId(ctx, cartId)
 	if err != nil {
-		return []model.CartItem{}, err
+		return nil, err
 	}
 
 	return cartItems, nil

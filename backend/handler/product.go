@@ -45,3 +45,37 @@ func (h *Handler) GetProductById(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(product)
 }
+
+func (h *Handler) GetProductsByCategoryId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	vars := mux.Vars(r)
+	category_name := vars["name"]
+
+	log.Printf("fetching products by category: %s\n", category_name)
+
+	products, err := h.service.GetProductsByCategoryName(ctx, category_name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(products)
+}
+
+func (h *Handler) GetProductsByName(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	vars := mux.Vars(r)
+	searchQuery := vars["searchQuery"]
+
+	log.Printf("fetching products by searchQuery: %s\n", searchQuery)
+
+	products, err := h.service.GetProductsByName(ctx, searchQuery)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(products)
+}

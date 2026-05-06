@@ -34,7 +34,7 @@ func (r *Repository) InsertOrderItem(ctx context.Context, orderItem model.OrderI
 func (r *Repository) GetOrderItemsByOrderId(ctx context.Context, id int) ([]model.OrderItem, error) {
 	rows, err := r.pool.Query(ctx, "select * from order_items where order_id=$1", id)
 	if err != nil {
-		return []model.OrderItem{}, err
+		return nil, err
 	}
 
 	orderItems := []model.OrderItem{}
@@ -56,7 +56,7 @@ func (r *Repository) GetOrderItemsByOrderId(ctx context.Context, id int) ([]mode
 func (r *Repository) GetOrders(ctx context.Context, userId int) ([]model.Order, error) {
 	rows, err := r.pool.Query(ctx, "select * from orders where user_id=$1", userId)
 	if err != nil {
-		return []model.Order{}, err
+		return nil, err
 	}
 
 	orders := []model.Order{}
