@@ -149,64 +149,68 @@ The project follows a simple Kanban workflow.
     ```
 
 
- Persoonad
-- Martin, 22
+# Persoonad ja kasutajalood
 
-Staatus: üliõpilane
-Huvid: mängimine, tehnoloogia
+## Persoona 1 — Martin, 22
 
-Käitumine:
+**Staatus:** üliõpilane  
+**Huvid:** mängimine, tehnoloogia  
 
+### Käitumine
 - Kasutab igapäevaselt arvutit nii õppimiseks kui ka mängimiseks
 - On aktiivne digiplatvormide ja veebiteenuste kasutaja
 
-Vajadused:
-
+### Vajadused
 - Otsib taskukohase hinnaga, kuid kvaliteetseid tarvikuid
 - Eelistab hea hinna ja kvaliteedi suhtega tooteid
 
-Valikukriteeriumid:
-
+### Valikukriteeriumid
 - Lähtub teiste kasutajate arvustustest
 - Hindab kiiret ja mugavat ostuprotsessi
 
-Persoona 2: Kadi, 34
+---
 
-Staatus: kontoritöötaja (turundusspetsialist)
-Huvid: töö efektiivsus, mugavad töövahendid
+## Persoona 2 — Kadi, 34
 
-Käitumine:
+**Staatus:** kontoritöötaja (turundusspetsialist)  
+**Huvid:** töö efektiivsus, mugavad töövahendid  
 
+### Käitumine
 - Kasutab tehnoloogiat igapäevaselt töö tegemiseks
 - Ei ole tehnikaekspert, eelistab lihtsaid ja arusaadavaid lahendusi
 
-Vajadused:
-
+### Vajadused
 - Vajab tööks usaldusväärseid ja mugavaid seadmeid
 - Eelistab seadmeid, mis on kergesti kasutatavad ja ei vaja keerulist seadistamist
 
-Valikukriteeriumid:
-
+### Valikukriteeriumid
 - Mugavus ja töökindlus on olulisemad kui hind
 - Eelistab hästi hinnatud ja populaarseid tooteid
-- Stsenaariumid
 
-Stsenaarium 1 (Martin):
-- Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategooriat, filtreerib tooteid hinna ja hinnangute järgi ning loeb arvustusi. Ta leiab sobiva hiire, lisab selle ostukorvi ja vormistab tellimuse kiiresti mobiilimaksega.
-
-Stsenaarium 2 (Kadi):
-- Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
-##
-Kasutajalood (User Stories)
 ---
-##
-- Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
-##
-- Kasutajana tahan ma filtreerida ja sorteerida tooteid hinna ja hinnangute järgi, et leida parim valik vastavalt oma eelarvele.
-##
-- Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsus.
-##
-- Kasutajana tahan ma lisada toote ostukorvi ja maksta mugavalt mobiilis, et ostuprotsess oleks kiire ja lihtne.
-##
-- Kasutajana tahan ma saada soovitusi populaarsete toodete kohta, et leida kvaliteetseid ja usaldusväärseid seadmeid ilma pika otsimiseta.
 
+# Stsenaariumid
+
+## Stsenaarium 1 — Martin
+
+Martin soovib osta uut mängurihiirt. Ta avab rakenduse, sirvib hiirte kategooriat, filtreerib tooteid hinna ja hinnangute järgi ning loeb arvustusi. Ta leiab sobiva hiire, lisab selle ostukorvi ja vormistab tellimuse kiiresti mobiilimaksega.
+
+---
+
+## Stsenaarium 2 — Kadi
+
+Kadi otsib töö jaoks mugavaid kõrvaklappe koos mikrofoniga. Ta avab rakenduse ja kasutab otsingut. Rakendus soovitab populaarseid ja hästi hinnatud tooteid. Kadi loeb lühikirjeldusi, valib ühe lihtsa ja usaldusväärse mudeli ning tellib selle koos kohaletoimetamisega kontorisse.
+
+---
+
+# Kasutajalood (User Stories)
+
+- Kasutajana tahan ma sirvida tootekategooriaid (hiired, klaviatuurid, kõrvaklapid, mikrofonid), et leida kiiresti vajalik toode.
+
+- Kasutajana tahan ma filtreerida ja sorteerida tooteid hinna ja hinnangute järgi, et leida parim valik vastavalt oma eelarvele.
+
+- Kasutajana tahan ma lugeda teiste kasutajate arvustusi, et teha teadlik ostuotsus.
+
+- Kasutajana tahan ma lisada toote ostukorvi ja maksta mugavalt mobiilis, et ostuprotsess oleks kiire ja lihtne.
+
+- Kasutajana tahan ma saada soovitusi populaarsete toodete kohta, et leida kvaliteetseid ja usaldusväärseid seadmeid ilma pika otsimiseta.
