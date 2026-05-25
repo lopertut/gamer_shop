@@ -33,10 +33,7 @@ Gamer Shop is a mobile store designed for gamers. The goal of the project is to 
 ## Screens Description
 
 ### Home Page
-Displays featured products and general store information.
-
-### Shop Page
-Catalog of available gaming products.
+Displays featured products.
 
 ### Product Details Page
 Detailed information about a selected product.
@@ -44,24 +41,24 @@ Detailed information about a selected product.
 ### Registration Page
 User registration form.
 
-### Contact Page
-Contact information and feedback form.
-
 ---
 
 ## Design Screenshots
 
 ### Home Page
-(Main page screenshot here)
+<img width="758" height="1634" alt="image" src="https://github.com/user-attachments/assets/76191d16-f233-4cc4-b30d-3a3491623681" />
+
 
 ### Shop Page
 (Shop screenshot here)
 
 ### Product Details
-(Product details screenshot here)
+<img width="360" height="1680" alt="image" src="https://github.com/user-attachments/assets/65a684c3-636f-483d-a45b-12bf0314d2ef" />
+
 
 ### Registration Page
-(Registration screenshot here)
+<img width="363" height="658" alt="image" src="https://github.com/user-attachments/assets/540fbcb3-3255-4d78-91f8-f2d24e3d2c06" />
+
 
 ---
 
