@@ -99,6 +99,102 @@ User registration form.
 
 ---
 
+# Frontend Structure
+
+```bash
+main/
+├── java/com/app/gamer_shop/
+│   ├── api/             # API services and network requests
+│   ├── models/          # Data models used in the application
+│   ├── repositories/    # Data management and repository layer
+│   ├── ui/              # Screens, components, and UI logic
+│   ├── viewModels/      # ViewModels for managing UI state
+│   ├── App.kt           # Application configuration class
+│   └── MainActivity.kt  # Main activity and app entry point
+├── res/                 # Resources (layouts, icons, strings, themes)
+└── AndroidManifest.xml  # Android application configuration
+```
+
+# Folder Description
+
+## `api/`
+Contains classes responsible for:
+- API requests
+- Network communication
+- Retrofit services or HTTP clients
+- Handling backend responses
+
+---
+
+## `models/`
+Contains application data models:
+- Product models
+- User models
+- Order models
+- Response objects
+
+---
+
+## `repositories/`
+Responsible for managing data sources:
+- Fetching data from APIs
+- Local data caching
+- Providing clean data access for ViewModels
+
+---
+
+## `ui/`
+Contains all user interface related code:
+- Screens
+- Components
+- Navigation
+- UI state rendering
+
+---
+
+## `viewModels/`
+Implements ViewModel logic using MVVM architecture:
+- Manages screen state
+- Handles business interaction between UI and repositories
+- Provides reactive data for UI updates
+
+---
+
+## `App.kt`
+Application-level configuration:
+- Initializes dependencies
+- Configures global application settings
+
+---
+
+## `MainActivity.kt`
+Main entry point of the Android application:
+- Hosts navigation
+- Launches UI content
+- Initializes the main application flow
+
+---
+
+## `res/`
+Contains Android resources:
+- Layouts
+- Drawable icons
+- Colors
+- Fonts
+- Strings
+- Themes and styles
+
+---
+
+## `AndroidManifest.xml`
+Defines Android application settings:
+- Permissions
+- Activities
+- Application metadata
+- App configuration
+
+---
+
 ## Design Screenshots
 
 ### Home Page
