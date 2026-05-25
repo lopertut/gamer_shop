@@ -30,6 +30,62 @@ Gamer Shop is a mobile store designed for gamers. The goal of the project is to 
 
 ---
 
+## Backend Structure
+
+```bash
+backend/
+├── handler/        # HTTP handlers and route controllers
+├── middleware/     # Middleware functions (auth, logging, CORS, etc.)
+├── model/          # Data models / structs
+├── repository/     # Database access layer and queries
+├── service/        # Business logic layer
+├── .env.example    # Example environment variables
+├── go.mod          # Go module dependencies
+└── main.go         # Application entry point
+```
+
+## Folder Description
+
+### `handler/`
+Contains request handlers responsible for:
+- Processing HTTP requests
+- Validating input
+- Returning API responses
+
+### `middleware/`
+Contains middleware used across the application, such as:
+- Authentication & authorization
+- Request logging
+- Error handling
+- CORS configuration
+
+### `model/`
+Defines application data structures and database models.
+
+### `repository/`
+Responsible for interacting with the database:
+- SQL queries
+- CRUD operations
+- Data persistence
+
+### `service/`
+Implements the business logic of the application:
+- Validation rules
+- Core application functionality
+- Communication between handlers and repositories
+
+### `main.go`
+The main entry point of the application:
+- Initializes server
+- Loads configuration
+- Registers routes and middleware
+
+### `.env.example`
+Template file for required environment variables.
+
+### `go.mod`
+Manages Go dependencies and module configuration.
+
 ## Screens Description
 
 ### Home Page
