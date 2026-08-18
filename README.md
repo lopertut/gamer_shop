@@ -232,14 +232,16 @@ The project follows a simple Kanban workflow.
 ---
 
 ## How to Run
-1. Clone the repository
+1. Install go on your pc
+2. start supabase database
+3. Clone the repository
    ```bash
    git clone https://github.com/lopertut/gamer_shop
    ```
-3. Open the project folder  
-4. Open backend folder
-5. Create and fill .env file. Backend folder have env example
-6. Run backend server
+4. Open the project folder  
+5. Open backend folder
+6. Create and fill .env file. Backend folder have env example
+7. Run backend server
    ```bash
    go run main.go
     ```
