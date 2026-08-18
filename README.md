@@ -246,6 +246,16 @@ The project follows a simple Kanban workflow.
    go run main.go
     ```
 
+---
+
+## Test Plan
+
+Test name: .env check
+prerequisite: dont create .env file
+step: run main script main.go
+expected result: programm will throw error and will not run
+
+---
 
 # Persoonad ja kasutajalood
 
